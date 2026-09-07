@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Aluno extends Model
 {
     protected $fillable = [
-        'nome',
-        'email',
-        'data_nascimento',
-        'curso_id',
+    'nome',
+    'email',
+    'data_nascimento',
+    'curso_id',
+    'user_id',
     ];
 
     public function curso(): BelongsTo
@@ -22,4 +23,5 @@ class Aluno extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
 }
