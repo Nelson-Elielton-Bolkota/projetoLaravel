@@ -28,7 +28,7 @@ class AlunoRequest extends FormRequest
             'nome' => 'required|string|max:255',
             'email' => 'required|email|unique:alunos,email,' . $alunoId,
             'data_nascimento' => 'nullable|date',
-            'curso_id' => 'required|exists:cursos,id', // O curso_id deve existir na tabela de cursos
+            'curso_id' => 'required|exists:cursos,id', 
         ];
     }
 }
