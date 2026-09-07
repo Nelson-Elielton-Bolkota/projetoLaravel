@@ -2,81 +2,66 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Aluno;
+use App\Models\Curso;
+use App\Http\Requests\AlunoRequest;
 
-class ALunoController extends Controller
-
+class AlunoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $alunos = Aluno::all();
+        $alunos = Aluno::with('curso')
+            ->latest()
+            ->get();
 
-        $alunosDoCurso = Aluno::where('curso_id', 1)->get();
-
-        $alunosFiltradosNome = Aluno::where('nome', 'LIKE', '%João%')->get();
-
-        $alunosRecentes = Aluno::latest()->get();
-
-        $totalAlunos = Aluno::count();
-
-        return view('alunos.index', compact(
-            'alunos',
-            'alunosDoCurso',
-            'alunosFiltradosNome',
-            'alunosRecentes',
-            'totalAlunos'
-        ));
+        return view('alunos.index', compact('alunos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $cursos = Curso::all();
+
+        return view('alunos.create', compact('cursos'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(AlunoRequest $request)
     {
-        //
+        Aluno::create($request->validated());
+
+        return redirect()
+            ->route('alunos.index')
+            ->with('success', 'Aluno cadastrado com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show(Aluno $aluno)
     {
-        //
+        $aluno->load('curso');
+
+        return view('alunos.show', compact('aluno'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Aluno $aluno)
     {
-        //
+        $cursos = Curso::all();
+
+        return view('alunos.edit', compact('aluno', 'cursos'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(AlunoRequest $request, Aluno $aluno)
     {
-        //
+        $aluno->update($request->validated());
+
+        return redirect()
+            ->route('alunos.show', $aluno)
+            ->with('success', 'Aluno atualizado com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Aluno $aluno)
     {
-        //
+        $aluno->delete();
+
+        return redirect()
+            ->route('alunos.index')
+            ->with('success', 'Aluno excluído com sucesso!');
     }
 }
