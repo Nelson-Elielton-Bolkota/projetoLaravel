@@ -3,15 +3,33 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Aluno;
 
 class ALunoController extends Controller
+
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $alunos = Aluno::all();
+
+        $alunosDoCurso = Aluno::where('curso_id', 1)->get();
+
+        $alunosFiltradosNome = Aluno::where('nome', 'LIKE', '%João%')->get();
+
+        $alunosRecentes = Aluno::latest()->get();
+
+        $totalAlunos = Aluno::count();
+
+        return view('alunos.index', compact(
+            'alunos',
+            'alunosDoCurso',
+            'alunosFiltradosNome',
+            'alunosRecentes',
+            'totalAlunos'
+        ));
     }
 
     /**
