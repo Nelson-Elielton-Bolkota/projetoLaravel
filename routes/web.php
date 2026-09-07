@@ -7,13 +7,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/sobre', function () {
-    return view('sobre');
+    return "sobre";
 });
 Route::get('/alunos', function () {
-    return view('alunos');
+    return "alunos";
 });
 Route::get('/contato', function () {
-    return view("contato");
+    return "contato";
 });
 
 Route::get('/produto/{id}', function ($id) {
