@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ALunoController;
+use App\Http\Controllers\AlunoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,4 +29,4 @@ Route::get('/usuario/{id}', function ($id) {
 });
 
 
-Route::resource('alunos', ALunoController::class);
+Route::resource('alunos', AlunoController::class);
