@@ -34,3 +34,7 @@ Route::get('/produtos/{id}', [ALunoController::class, 'show']);
 Route::get('/produtos/{id}/editar', [ALunoController::class, 'edit']);
 Route::put('/produtos/{id}', [ALunoController::class, 'update']);
 Route::delete('/produtos/{id}', [ALunoController::class, 'destroy']);
+
+Route::get('/', function () {
+    return view('home');
+});
