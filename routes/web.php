@@ -4,18 +4,18 @@ use App\Http\Controllers\ALunoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
 Route::get('/sobre', function () {
     return "sobre";
 });
-Route::get('/alunos', function () {
-    return "alunos";
-});
+
 Route::get('/contato', function () {
     return "contato";
 });
 
+// Rotas de Exemplo / Parâmetros
 Route::get('/produto/{id}', function ($id) {
     return "Exibindo o produto de ID: " . $id;
 });
@@ -27,14 +27,12 @@ Route::get('/categoria/{id}', function ($id) {
 Route::get('/usuario/{id}', function ($id) {
     return "Exibindo o usuário de ID: " . $id;
 });
-Route::get('/produtos', [ALunoController::class, 'index']);
-Route::get('/produtos/criar', [ALunoController::class, 'create']);
-Route::post('/produtos', [ALunoController::class, 'store']);
-Route::get('/produtos/{id}', [ALunoController::class, 'show']);
-Route::get('/produtos/{id}/editar', [ALunoController::class, 'edit']);
-Route::put('/produtos/{id}', [ALunoController::class, 'update']);
-Route::delete('/produtos/{id}', [ALunoController::class, 'destroy']);
 
-Route::get('/', function () {
-    return view('home');
-});
+// Rotas do Módulo de Alunos (Corrigidas com nome e endpoint correto)
+Route::get('/alunos', [ALunoController::class, 'index'])->name('alunos.index');
+Route::get('/alunos/criar', [ALunoController::class, 'create'])->name('alunos.create');
+Route::post('/alunos', [ALunoController::class, 'store'])->name('alunos.store');
+Route::get('/alunos/{id}', [ALunoController::class, 'show'])->name('alunos.show');
+Route::get('/alunos/{id}/editar', [ALunoController::class, 'edit'])->name('alunos.edit');
+Route::put('/alunos/{id}', [ALunoController::class, 'update'])->name('alunos.update');
+Route::delete('/alunos/{id}', [ALunoController::class, 'destroy'])->name('alunos.destroy');
