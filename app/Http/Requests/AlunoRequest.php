@@ -2,33 +2,53 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AlunoRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-        $alunoId = $this->route('aluno') ? $this->route('aluno')->id : null;
-
         return [
-            'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos,email,' . $alunoId,
-            'data_nascimento' => 'nullable|date',
-            'curso_id' => 'required|exists:cursos,id', 
+            'nome' => [
+                'required',
+                'string',
+                'min:3',
+                'max:255',
+            ],
+
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+            ],
+
+            'data_nascimento' => [
+                'nullable',
+                'date',
+            ],
+
+            'curso_id' => [
+                'required',
+                'exists:cursos,id',
+            ],
         ];
     }
+    public function messages(): array
+{
+    return [
+        'nome.required' => 'O nome do aluno é obrigatório.',
+        'nome.min' => 'O nome deve possuir pelo menos 3 caracteres.',
+
+        'email.required' => 'O e-mail é obrigatório.',
+        'email.email' => 'Digite um e-mail válido.',
+
+        'curso_id.required' => 'Selecione um curso.',
+        'curso_id.exists' => 'O curso selecionado não existe.',
+    ];
+}
 }
