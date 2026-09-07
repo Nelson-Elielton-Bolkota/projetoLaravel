@@ -28,5 +28,4 @@ Route::get('/usuario/{id}', function ($id) {
     return "Exibindo o usuário de ID: " . $id;
 });
 
-
 Route::resource('alunos', AlunoController::class);

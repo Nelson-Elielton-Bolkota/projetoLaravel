@@ -2,33 +2,30 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule; // <-- Importe esta classe
 
 class AlunoRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
-        $alunoId = $this->route('aluno') ? $this->route('aluno')->id : null;
+        // Pega a instância do Aluno injetada na rota (se existir)
+        $aluno = $this->route('aluno');
 
         return [
             'nome' => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos,email,' . $alunoId,
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('alunos', 'email')->ignore($aluno),
+            ],
             'data_nascimento' => 'nullable|date',
-            'curso_id' => 'required|exists:cursos,id', 
+            'curso_id' => 'required|exists:cursos,id',
         ];
     }
 }
