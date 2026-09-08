@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AlunoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,3 +27,5 @@ Route::middleware(['auth', 'role:admin'])->get('/admin', function () {
 Route::middleware(['auth', 'role:professor'])->get('/professor', function () {
     return 'Área do Professor';
 });
+
+Route::resource('alunos', AlunoController::class);
