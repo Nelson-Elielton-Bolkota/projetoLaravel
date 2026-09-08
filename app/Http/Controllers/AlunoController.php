@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Aluno;
 use App\Models\Curso;
 use App\Http\Requests\AlunoRequest;
+use Illuminate\Support\Facades\Gate;
 
 class AlunoController extends Controller
 {
@@ -19,6 +20,8 @@ class AlunoController extends Controller
 
     public function create()
     {
+        Gate::authorize('create', Aluno::class);
+
         $cursos = Curso::all();
 
         return view('alunos.create', compact('cursos'));
@@ -26,6 +29,8 @@ class AlunoController extends Controller
 
     public function store(AlunoRequest $request)
     {
+        Gate::authorize('create', Aluno::class);
+
         Aluno::create($request->validated());
 
         return redirect()
@@ -42,6 +47,8 @@ class AlunoController extends Controller
 
     public function edit(Aluno $aluno)
     {
+        Gate::authorize('update', $aluno);
+
         $cursos = Curso::all();
 
         return view('alunos.edit', compact('aluno', 'cursos'));
@@ -49,6 +56,8 @@ class AlunoController extends Controller
 
     public function update(AlunoRequest $request, Aluno $aluno)
     {
+        Gate::authorize('update', $aluno);
+
         $aluno->update($request->validated());
 
         return redirect()
@@ -58,6 +67,8 @@ class AlunoController extends Controller
 
     public function destroy(Aluno $aluno)
     {
+        Gate::authorize('delete', $aluno);
+
         $aluno->delete();
 
         return redirect()
