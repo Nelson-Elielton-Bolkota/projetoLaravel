@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Aluno extends Model
+{
+    protected $fillable = [
+    'nome',
+    'email',
+    'data_nascimento',
+    'curso_id',
+    'user_id',
+    ];
+
+    public function curso(): BelongsTo
+    {
+        return $this->belongsTo(Curso::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    
+}
